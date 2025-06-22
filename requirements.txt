@@ -1,0 +1,11 @@
+# requirements.txt
+fastapi==0.111.0          # framework
+uvicorn==0.30.1           # Servidor ASGI para ejecutar FastAPI
+sqlalchemy==2.0.30        # ORM
+pymysql==1.1.0            # Conector de Python para MySQL (necesario para SQLAlchemy con MySQL)
+pydantic==2.7.4           # Validación de datos (usado por FastAPI y para schemas)
+pydantic-settings==2.0.0  # Manejar la configuración desde variables de entorno
+python-dotenv==1.0.1      # Cargar variables de entorno desde el archivo .env
+cryptography==42.0.7      # Aunque pymysql es el conector, necesita de cryptography para manejar estos métodos de autenticación más seguros
+pytest==8.2.2             # Pruebas unitarias
+pytest-cov==5.0.0         # Para % de cobertura

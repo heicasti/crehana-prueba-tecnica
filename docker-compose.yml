@@ -1,0 +1,44 @@
+# docker-compose.yml
+version: '3.8'
+
+# Servicios (contenedores)
+services:
+  web: # Servicio para FastAPI
+    build: . # Construir la imagen a partir del Dockerfile en el directorio actual
+    ports:
+      - "8000:8000" # Mapea el puerto 8000 de la máquina local al puerto 8000 dentro del contenedor
+    volumes:
+      # Monta el directorio 'app' del proyecto local dentro del contenedor.
+      - ./app:/app/app
+      # Montar el directorio raíz del proyecto para que pytest y los tests estén disponibles
+      - .:/app
+    environment:
+      # DATABASE_URL del archivo .env
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      db_service_mysql:
+        condition: service_healthy # Espera a que la DB esté lista y saludable
+    command: >
+      sh -c "cd /app && export PYTHONPATH=/app && python app/create_db_tables.py && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  db_service_mysql: # Servicio para tu base de datos MySQL
+    image: mysql:8.0 # Utiliza la imagen oficial de MySQL versión 8.0 desde Docker Hub
+    container_name: db_service_mysql # Nombre explícito del contenedor
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck: # Define cómo Docker verifica que la DB está lista
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD"]
+      interval: 10s # Verifica cada 10 segundos
+      timeout: 5s   # Espera hasta 5 segundos por cada verificación
+      retries: 5    # Reintenta 5 veces antes de considerar el servicio como "unhealthy"
+
+# Volúmenes que se usarán para la persistencia de datos
+volumes:
+  db_data: # Declaración del volumen 'db_data'
