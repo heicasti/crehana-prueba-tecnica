@@ -29,3 +29,6 @@ __pycache__/
 # Archivos de sistema operativo
 .DS_Store # macOS
 Thumbs.db # Windows
+
+# Cobertura de tests
+.coverage
