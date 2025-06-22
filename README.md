@@ -7,17 +7,17 @@ Este proyecto implementa una API RESTful para gestionar listas de tareas y tarea
 
 Para ejecutar el proyecto, necesitarás tener instalado:
 * **Docker** y **Docker Compose**
-* Python 3.9+ (para referencia o desarrollo local si aplicara, pero la ejecución principal es con Docker)
+* Python 3.9+ (para referencia o desarrollo local, pero la ejecución principal es con Docker)
 
 ## Configuración y Ejecución de la Aplicación (con Docker Compose)
 
 Esta es la forma recomendada de levantar la aplicación y su base de datos.
 
-1.  **Clonar el Repositorio (si aplica):**
+1.  **Clonar el Repositorio:**
     ```bash
-    # Si estás trabajando con Git, clona el repositorio.
-    # git clone <URL_DEL_REPOSITORIO>
-    # cd <NOMBRE_DEL_REPOSITORIO>
+    # Clona el repositorio.
+    git clone [https://github.com/heicasti/crehana-prueba-tecnica.git](https://github.com/heicasti/crehana-prueba-tecnica.git)
+    cd crehana-prueba-tecnica
     ```
 
 2.  **Configurar Variables de Entorno:**
@@ -57,11 +57,13 @@ Para correr los tests unitarios y de integración dentro del contenedor `web` (a
 
 ```bash
 docker compose exec web pytest
+```
 
 Para ver el reporte de cobertura de código (se espera un mínimo de 75%):
 
 ```bash
 docker compose exec web pytest --cov=app
+```
 
 ## Buenas Prácticas y Decisiones Técnicas Clave
 Arquitectura por Capas: Separación de responsabilidades en Dominio, Aplicación e Infraestructura para facilitar la modularidad, el mantenimiento y la escalabilidad del código.
@@ -87,5 +89,7 @@ Los siguientes puntos quedarían como mejoras o funcionalidades a implementar en
 
 Autenticación y Autorización: Implementación de un sistema de login con JWT para proteger los endpoints de la API.
 Asignación de Tareas: Desarrollar la funcionalidad para asignar tareas a usuarios específicos.
+
 Notificaciones Ficticias: Simular el envío de correos electrónicos para notificaciones (e.g., invitaciones).
-Cobertura de Tests: Aumentar la cobertura de los tests unitarios, especialmente en los módulos de servicio y enrutamiento, para alcanzar un nivel más alto de confianza. (Nota: La prueba requería 75% de cobertura, se ha logrado, pero siempre se puede mejorar).
+
+Cobertura de Tests: Aumentar la cobertura de los tests unitarios, especialmente en los módulos de servicio y enrutamiento, para alcanzar un nivel más alto de confianza. (La prueba requería 75% de cobertura, se ha logrado, pero siempre se puede mejorar).
